@@ -59,19 +59,36 @@ async function createCandidate() {
       Name: 'SalinaTEST',
     }
 
-    const candidate2 = {
-      Candidate_First_Name: 'Franco',
-      Email: 'francotest@gmail.com',
-      Name: 'SalinaTEST2',
-    }
+    // const candidate2 = {
+    //   Candidate_First_Name: 'Franco',
+    //   Email: 'francotest@gmail.com',
+    //   Name: 'SalinaTEST2',
+    // }
 
     const createdCandidate = await zoho.records.create({
       moduleName: 'Candidates',
-      data: [candidate, candidate2],
+      data: [candidate],
     })
 
     console.log('CREATE CANDIDATE:', createdCandidate.data)
     console.log('------------------------------')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+async function updateCandidate() {
+  try {
+    const updated = await zoho.records.update({
+      moduleName: 'Candidates',
+      recordId: '5905444000008150003',
+      data: {
+        Candidate_First_Name: 'Tomasssss',
+        Desired_Role: 'Frontend Developer',
+      },
+    })
+
+    console.log(updated.data)
   } catch (err) {
     console.error(err)
   }
@@ -91,7 +108,8 @@ async function test() {
   // await getCandidates()
   // await searchCandidates()
   // await createCandidate()
-  await uploadFile()
+  await updateCandidate()
+  // await uploadFile()
 }
 
 test()

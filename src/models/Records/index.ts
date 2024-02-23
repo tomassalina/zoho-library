@@ -9,6 +9,7 @@ import {
   GetRecordsOptions,
   SearchRecordsOptions,
   CreateRecordOptions,
+  UpdateRecordOptions,
 } from './type'
 
 export default class Records {
@@ -22,8 +23,8 @@ export default class Records {
   async getOne(options: GetRecordOptions) {
     const { moduleName, recordId } = options
 
-    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
     validate.getOneMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
 
     const params = paramBuilder.createGetOneParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}/${recordId}`
@@ -47,8 +48,8 @@ export default class Records {
   async getAll(options: GetRecordsOptions) {
     const { moduleName } = options
 
-    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
     validate.getAllMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
 
     const params = paramBuilder.createGetAllParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}`
@@ -72,8 +73,8 @@ export default class Records {
   async search(options: SearchRecordsOptions) {
     const { moduleName } = options
 
-    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
     validate.seachMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
 
     const params = paramBuilder.createSearchParams(options)
     const endpoint = `${this.baseUrl}/v3/${moduleName}/search`
@@ -97,9 +98,7 @@ export default class Records {
   async create(options: CreateRecordOptions) {
     const { moduleName, data } = options
 
-    if (!this.zohoCRM.accessToken) {
-      await this.zohoCRM.authenticate()
-    }
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
 
     const endpoint = `${this.baseUrl}/v5/${moduleName}`
     try {
@@ -118,6 +117,33 @@ export default class Records {
         err.response?.data
       )
       throw new Error('Failed to create record.')
+    }
+  }
+
+  async update(options: UpdateRecordOptions) {
+    const { moduleName, recordId, data } = options
+
+    validate.updateMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}/${recordId}`
+
+    try {
+      return await axios.put(
+        endpoint,
+        { data: [data] },
+        {
+          headers: {
+            Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+          },
+        }
+      )
+    } catch (err: any) {
+      console.error(
+        `Error updating record ${recordId} for the ${moduleName} module`,
+        err.response?.data
+      )
+      throw new Error('Failed to update record.')
     }
   }
 }

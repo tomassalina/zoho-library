@@ -2,6 +2,7 @@ import {
   GetRecordOptions,
   GetRecordsOptions,
   SearchRecordsOptions,
+  UpdateRecordOptions,
 } from '../type'
 
 const getOneMethod = (options: GetRecordOptions) => {
@@ -35,8 +36,19 @@ const seachMethod = (options: SearchRecordsOptions) => {
     throw new Error('"fields" parameter must be an array')
 }
 
+const updateMethod = (options: UpdateRecordOptions) => {
+  const { moduleName, recordId, data } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (!recordId) throw new Error('"recordId" is required.')
+  if (!data) throw new Error('"data" is required.')
+  if (typeof data !== 'object' || Array.isArray(data))
+    throw new Error('"data" must be an object.')
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
   seachMethod,
+  updateMethod,
 }

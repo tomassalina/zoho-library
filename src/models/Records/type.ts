@@ -52,3 +52,10 @@ export interface CreateRecordOptions {
   moduleName: string
   data: Array<object>
 }
+
+// UPDATE RECORDS
+export interface UpdateRecordOptions {
+  moduleName: string
+  recordId: string
+  data: Array<object>
+}
