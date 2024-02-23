@@ -6,13 +6,13 @@ import {
   SearchRecordsParams,
 } from '../type'
 
-export const createGetRecordParams = (options: GetRecordOptions) => {
+const createGetOneParams = (options: GetRecordOptions) => {
   const { fields } = options
   const params = { fields: fields?.join(',') }
   return params
 }
 
-export const createGetRecordsParams = (options: GetRecordsOptions) => {
+const createGetAllParams = (options: GetRecordsOptions) => {
   const { fields, ids, page, perPage, pageToken, sortOrder, sortBy } = options
 
   const params: GetRecordsParams = { fields: fields.join(',') }
@@ -28,7 +28,7 @@ export const createGetRecordsParams = (options: GetRecordsOptions) => {
   return params
 }
 
-export const createSearchParams = (options: SearchRecordsOptions) => {
+const createSearchParams = (options: SearchRecordsOptions) => {
   const { criteria, email, phone, word, fields, page, perPage } = options
 
   const params: SearchRecordsParams = {}
@@ -42,4 +42,10 @@ export const createSearchParams = (options: SearchRecordsOptions) => {
   if (perPage) params.per_page = perPage
 
   return params
+}
+
+export const paramBuilder = {
+  createGetOneParams,
+  createGetAllParams,
+  createSearchParams,
 }

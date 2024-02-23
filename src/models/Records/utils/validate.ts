@@ -4,7 +4,7 @@ import {
   SearchRecordsOptions,
 } from '../type'
 
-export const validateGetRecordOptions = (options: GetRecordOptions) => {
+const getOneMethod = (options: GetRecordOptions) => {
   const { moduleName, recordId, fields } = options
 
   if (!moduleName) throw new Error('"moduleName" is required.')
@@ -13,7 +13,7 @@ export const validateGetRecordOptions = (options: GetRecordOptions) => {
     throw new Error('Cannot request more than 50 "fields".')
 }
 
-export const validateGetRecordsOptions = (options: GetRecordsOptions) => {
+const getAllMethod = (options: GetRecordsOptions) => {
   const { moduleName, fields, ids } = options
 
   if (!moduleName) throw new Error('"moduleName" is required.')
@@ -25,7 +25,7 @@ export const validateGetRecordsOptions = (options: GetRecordsOptions) => {
     throw new Error('"ids" parameter must be an array.')
 }
 
-export const validateSearchOptions = (options: SearchRecordsOptions) => {
+const seachMethod = (options: SearchRecordsOptions) => {
   const { moduleName, criteria, fields } = options
 
   if (!moduleName) throw new Error('"moduleName" is required.')
@@ -33,4 +33,10 @@ export const validateSearchOptions = (options: SearchRecordsOptions) => {
     throw new Error('"criteria" parameter must be an array')
   if (fields && !Array.isArray(fields))
     throw new Error('"fields" parameter must be an array')
+}
+
+export const validate = {
+  getOneMethod,
+  getAllMethod,
+  seachMethod,
 }

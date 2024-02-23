@@ -1,22 +1,14 @@
 import axios from 'axios'
 import ZohoCRM from '../../core/ZohoCRM'
+
+import { validate } from './utils/validate'
+import { paramBuilder } from './utils/paramBuilder'
+
 import {
   GetRecordOptions,
   GetRecordsOptions,
-  GetRecordsParams,
   SearchRecordsOptions,
-  SearchRecordsParams,
 } from './type'
-import {
-  validateGetRecordOptions,
-  validateGetRecordsOptions,
-  validateSearchOptions,
-} from './utils/validations'
-import {
-  createGetRecordParams,
-  createGetRecordsParams,
-  createSearchParams,
-} from './utils/createParams'
 
 export default class Records {
   private zohoCRM: ZohoCRM
@@ -27,12 +19,12 @@ export default class Records {
   }
 
   async getOne(options: GetRecordOptions) {
-    const { moduleName, recordId, fields } = options
+    const { moduleName, recordId } = options
 
     if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
-    validateGetRecordOptions(options)
+    validate.getOneMethod(options)
 
-    const params = createGetRecordParams(options)
+    const params = paramBuilder.createGetOneParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}/${recordId}`
 
     try {
@@ -55,9 +47,9 @@ export default class Records {
     const { moduleName } = options
 
     if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
-    validateGetRecordsOptions(options)
+    validate.getAllMethod(options)
 
-    const params = createGetRecordsParams(options)
+    const params = paramBuilder.createGetAllParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}`
 
     try {
@@ -77,9 +69,9 @@ export default class Records {
     const { moduleName } = options
 
     if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
-    validateSearchOptions(options)
+    validate.seachMethod(options)
 
-    const params = createSearchParams(options)
+    const params = paramBuilder.createSearchParams(options)
     const endpoint = `${this.baseUrl}/v3/${moduleName}/search`
 
     try {
