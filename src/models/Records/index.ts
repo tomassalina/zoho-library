@@ -11,6 +11,7 @@ import {
   CreateRecordOptions,
   UpdateRecordOptions,
   BulkUpdateRecordsOptions,
+  DeleteRecordsOptions,
 } from './type'
 
 export default class Records {
@@ -172,6 +173,31 @@ export default class Records {
         err.response?.data
       )
       throw new Error('Failed to bulk update records.')
+    }
+  }
+
+  async delete(options: DeleteRecordsOptions) {
+    const { moduleName, ids } = options
+
+    validate.deleteMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}`
+    const params = { ids: ids.join(',') }
+
+    try {
+      return await axios.delete(endpoint, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+        },
+        params,
+      })
+    } catch (err: any) {
+      console.error(
+        `Error deleting records for the ${moduleName} module`,
+        err.response?.data
+      )
+      throw new Error('Failed to delete records.')
     }
   }
 }

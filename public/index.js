@@ -51,7 +51,7 @@ async function searchCandidates() {
   }
 }
 
-async function createCandidate() {
+async function createCandidates() {
   try {
     const candidate = {
       Candidate_First_Name: 'Tomas',
@@ -114,6 +114,15 @@ async function bulkUpdateCandidates() {
   console.log(updates.data)
 }
 
+async function deleteCandidates() {
+  const deleted = await zoho.records.delete({
+    moduleName: 'Candidates',
+    ids: ['5905444000008165010', '5905444000008150003', '5905444000008154014'],
+  })
+
+  console.log(deleted.data)
+}
+
 async function uploadFile() {
   const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
   const upload = await zoho.files.upload({
@@ -127,9 +136,11 @@ async function test() {
   // await getOneCandidate()
   // await getCandidates()
   // await searchCandidates()
-  // await createCandidate()
+  // await createCandidates()
   // await updateCandidate()
   // await bulkUpdateCandidates()
+  await deleteCandidates()
+
   // await uploadFile()
 }
 

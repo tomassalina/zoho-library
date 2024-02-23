@@ -67,3 +67,9 @@ export interface BulkUpdateRecordsOptions {
   moduleName: string
   data: RecordUpdate[]
 }
+
+// DELETE RECORDS
+export interface DeleteRecordsOptions {
+  moduleName: string
+  ids: string[]
+}

@@ -1,5 +1,6 @@
 import {
   BulkUpdateRecordsOptions,
+  DeleteRecordsOptions,
   GetRecordOptions,
   GetRecordsOptions,
   SearchRecordsOptions,
@@ -55,10 +56,19 @@ const bulkUpdateMethod = (options: BulkUpdateRecordsOptions) => {
     throw new Error('All objects in "data" must have an id.')
 }
 
+const deleteMethod = (options: DeleteRecordsOptions) => {
+  const { moduleName, ids } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (!Array.isArray(ids) || ids.length === 0)
+    throw new Error('"ids" is required and must be a non-empty array.')
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
   seachMethod,
   updateMethod,
   bulkUpdateMethod,
+  deleteMethod,
 }
