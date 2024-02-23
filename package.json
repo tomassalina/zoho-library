@@ -1,0 +1,53 @@
+{
+  "name": "zoho-library",
+  "version": "0.0.1",
+  "description": "A sleek and powerful library to effortlessly bridge Node.js with Zoho CRM, featuring easy OAuth handling, seamless CRUD operations, and comprehensive management of contacts, leads, and more.",
+  "main": "dist/index.js",
+  "files": [
+    "dist/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomassalina/zoho-library.git"
+  },
+  "keywords": [
+    "zoho",
+    "zoho",
+    "crm",
+    "nodejs",
+    "zoho",
+    "integration",
+    "zoho",
+    "crm",
+    "api",
+    "zoho",
+    "modules",
+    "zoho",
+    "contacts",
+    "zoho",
+    "records",
+    "zoho",
+    "api",
+    "client"
+  ],
+  "author": "Tomas Salina <salinatomass53@gmail.com> (https://tomassalina.netlify.com)",
+  "contributors": [
+    "Thiago Lopez"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tomassalina/zoho-library/issues"
+  },
+  "homepage": "https://github.com/tomassalina/zoho-library#readme",
+  "devDependencies": {
+    "@types/node": "^20.11.20",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
