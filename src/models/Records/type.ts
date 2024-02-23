@@ -73,3 +73,9 @@ export interface DeleteRecordsOptions {
   moduleName: string
   ids: string[]
 }
+
+// UPSERT RECORDS
+export interface UpsertRecordsOptions {
+  moduleName: string
+  data: Array<object>
+}

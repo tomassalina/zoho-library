@@ -123,6 +123,26 @@ async function deleteCandidates() {
   console.log(deleted.data)
 }
 
+async function upsertCandidates() {
+  const updated = await zoho.records.upsert({
+    moduleName: 'Candidates',
+    data: [
+      {
+        Name: 'SalinaTEST',
+        Desired_Role: 'Data Science',
+      },
+      {
+        Name: 'SofiaTEST',
+        Email: 'sofiatest@gmail.com',
+        Candidate_First_Name: 'Sofia',
+        Desired_Role: 'Data Science',
+      },
+    ],
+  })
+
+  console.log(updated.data)
+}
+
 async function uploadFile() {
   const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
   const upload = await zoho.files.upload({
@@ -139,8 +159,8 @@ async function test() {
   // await createCandidates()
   // await updateCandidate()
   // await bulkUpdateCandidates()
-  await deleteCandidates()
-
+  // await deleteCandidates()
+  // await upsertCandidates()
   // await uploadFile()
 }
 

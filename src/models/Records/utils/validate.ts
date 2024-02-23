@@ -5,6 +5,7 @@ import {
   GetRecordsOptions,
   SearchRecordsOptions,
   UpdateRecordOptions,
+  UpsertRecordsOptions,
 } from '../type'
 
 const getOneMethod = (options: GetRecordOptions) => {
@@ -60,8 +61,16 @@ const deleteMethod = (options: DeleteRecordsOptions) => {
   const { moduleName, ids } = options
 
   if (!moduleName) throw new Error('"moduleName" is required.')
-  if (!Array.isArray(ids) || ids.length === 0)
+  if (!Array.isArray(ids))
     throw new Error('"ids" is required and must be a non-empty array.')
+}
+
+const upsertMethod = (options: UpsertRecordsOptions) => {
+  const { moduleName, data } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (!Array.isArray(data))
+    throw new Error('"ids" is required and must be an array.')
 }
 
 export const validate = {
@@ -71,4 +80,5 @@ export const validate = {
   updateMethod,
   bulkUpdateMethod,
   deleteMethod,
+  upsertMethod,
 }

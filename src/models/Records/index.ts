@@ -12,6 +12,7 @@ import {
   UpdateRecordOptions,
   BulkUpdateRecordsOptions,
   DeleteRecordsOptions,
+  UpsertRecordsOptions,
 } from './type'
 
 export default class Records {
@@ -198,6 +199,33 @@ export default class Records {
         err.response?.data
       )
       throw new Error('Failed to delete records.')
+    }
+  }
+
+  async upsert(options: UpsertRecordsOptions) {
+    const { moduleName, data } = options
+
+    validate.upsertMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}/upsert`
+
+    try {
+      return await axios.post(
+        endpoint,
+        { data },
+        {
+          headers: {
+            Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+          },
+        }
+      )
+    } catch (err: any) {
+      console.error(
+        `Error upsarting records for the ${moduleName} module`,
+        err.response?.data
+      )
+      throw new Error('Failed to upsert records.')
     }
   }
 }
