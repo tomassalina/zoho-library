@@ -1,4 +1,5 @@
 import {
+  BulkUpdateRecordsOptions,
   GetRecordOptions,
   GetRecordsOptions,
   SearchRecordsOptions,
@@ -46,9 +47,18 @@ const updateMethod = (options: UpdateRecordOptions) => {
     throw new Error('"data" must be an object.')
 }
 
+const bulkUpdateMethod = (options: BulkUpdateRecordsOptions) => {
+  const { moduleName, data } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (!data.every(record => record.id))
+    throw new Error('All objects in "data" must have an id.')
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
   seachMethod,
   updateMethod,
+  bulkUpdateMethod,
 }

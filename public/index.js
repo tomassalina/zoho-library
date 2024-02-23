@@ -59,15 +59,15 @@ async function createCandidate() {
       Name: 'SalinaTEST',
     }
 
-    // const candidate2 = {
-    //   Candidate_First_Name: 'Franco',
-    //   Email: 'francotest@gmail.com',
-    //   Name: 'SalinaTEST2',
-    // }
+    const candidate2 = {
+      Candidate_First_Name: 'Franco',
+      Email: 'francotest@gmail.com',
+      Name: 'SalinaTEST2',
+    }
 
     const createdCandidate = await zoho.records.create({
       moduleName: 'Candidates',
-      data: [candidate],
+      data: [candidate, candidate2],
     })
 
     console.log('CREATE CANDIDATE:', createdCandidate.data)
@@ -94,6 +94,26 @@ async function updateCandidate() {
   }
 }
 
+async function bulkUpdateCandidates() {
+  const updates = await zoho.records.bulkUpdate({
+    moduleName: 'Candidates',
+    data: [
+      {
+        id: '5905444000008150003',
+        Candidate_First_Name: 'Tomasssss',
+        Desired_Role: 'UI Designer',
+      },
+      {
+        id: '5905444000008165010',
+        Candidate_First_Name: 'Francooooo',
+        Desired_Role: 'Backend Developer',
+      },
+    ],
+  })
+
+  console.log(updates.data)
+}
+
 async function uploadFile() {
   const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
   const upload = await zoho.files.upload({
@@ -108,7 +128,8 @@ async function test() {
   // await getCandidates()
   // await searchCandidates()
   // await createCandidate()
-  await updateCandidate()
+  // await updateCandidate()
+  // await bulkUpdateCandidates()
   // await uploadFile()
 }
 

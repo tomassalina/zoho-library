@@ -10,6 +10,7 @@ import {
   SearchRecordsOptions,
   CreateRecordOptions,
   UpdateRecordOptions,
+  BulkUpdateRecordsOptions,
 } from './type'
 
 export default class Records {
@@ -144,6 +145,33 @@ export default class Records {
         err.response?.data
       )
       throw new Error('Failed to update record.')
+    }
+  }
+
+  async bulkUpdate(options: BulkUpdateRecordsOptions) {
+    const { moduleName, data } = options
+
+    validate.bulkUpdateMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}`
+
+    try {
+      return await axios.put(
+        endpoint,
+        { data },
+        {
+          headers: {
+            Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+          },
+        }
+      )
+    } catch (err: any) {
+      console.error(
+        `Error updating records for the ${moduleName} module`,
+        err.response?.data
+      )
+      throw new Error('Failed to bulk update records.')
     }
   }
 }

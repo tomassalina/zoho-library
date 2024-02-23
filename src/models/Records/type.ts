@@ -59,3 +59,11 @@ export interface UpdateRecordOptions {
   recordId: string
   data: Array<object>
 }
+type RecordUpdate = {
+  id: string
+  [key: string]: any
+}
+export interface BulkUpdateRecordsOptions {
+  moduleName: string
+  data: RecordUpdate[]
+}
