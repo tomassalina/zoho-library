@@ -79,3 +79,16 @@ export interface UpsertRecordsOptions {
   moduleName: string
   data: Array<object>
 }
+
+// GET DELETED RECORDS
+export interface GetDeletedRecordsOptions {
+  moduleName: string
+  type?: 'all' | 'recycle' | 'permanent'
+  page?: number
+  perPage?: number
+}
+export interface GetDeletedRecordsParams {
+  type?: 'all' | 'recycle' | 'permanent'
+  page?: number
+  per_page?: number
+}

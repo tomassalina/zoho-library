@@ -1,6 +1,7 @@
 import {
   BulkUpdateRecordsOptions,
   DeleteRecordsOptions,
+  GetDeletedRecordsOptions,
   GetRecordOptions,
   GetRecordsOptions,
   SearchRecordsOptions,
@@ -73,6 +74,16 @@ const upsertMethod = (options: UpsertRecordsOptions) => {
     throw new Error('"ids" is required and must be an array.')
 }
 
+const getDeletedMethod = (options: GetDeletedRecordsOptions) => {
+  const { type } = options
+
+  const possibleTypes = ['all', 'recycle', 'permanent']
+  if (type && !possibleTypes.includes(type))
+    throw new Error(
+      'The "type" can only have the value "all", "recycle" or "permanent"'
+    )
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
@@ -81,4 +92,5 @@ export const validate = {
   bulkUpdateMethod,
   deleteMethod,
   upsertMethod,
+  getDeletedMethod,
 }

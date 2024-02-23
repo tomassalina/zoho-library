@@ -13,6 +13,7 @@ import {
   BulkUpdateRecordsOptions,
   DeleteRecordsOptions,
   UpsertRecordsOptions,
+  GetDeletedRecordsOptions,
 } from './type'
 
 export default class Records {
@@ -226,6 +227,32 @@ export default class Records {
         err.response?.data
       )
       throw new Error('Failed to upsert records.')
+    }
+  }
+
+  async getDeleted(options: GetDeletedRecordsOptions) {
+    const { moduleName } = options
+
+    validate.getDeletedMethod(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}/deleted`
+    const params = paramBuilder.createGetDeletedParams(options)
+    console.log(params)
+
+    try {
+      return await axios.get(endpoint, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+        },
+        params,
+      })
+    } catch (err: any) {
+      console.error(
+        `Error getting deleted records from module ${moduleName}.`,
+        err.response?.data
+      )
+      throw new Error(`Failed to get deleted records.`)
     }
   }
 }

@@ -1,4 +1,6 @@
 import {
+  GetDeletedRecordsOptions,
+  GetDeletedRecordsParams,
   GetRecordOptions,
   GetRecordsOptions,
   GetRecordsParams,
@@ -44,8 +46,21 @@ const createSearchParams = (options: SearchRecordsOptions) => {
   return params
 }
 
+const createGetDeletedParams = (options: GetDeletedRecordsOptions) => {
+  const { type, page, perPage } = options
+
+  const params: GetDeletedRecordsParams = { type: 'all' }
+
+  if (type) params.type = type
+  if (page) params.page = page
+  if (perPage) params.per_page = perPage
+
+  return params
+}
+
 export const paramBuilder = {
   createGetOneParams,
   createGetAllParams,
   createSearchParams,
+  createGetDeletedParams,
 }
