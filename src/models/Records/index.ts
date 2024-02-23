@@ -1,6 +1,22 @@
 import axios from 'axios'
 import ZohoCRM from '../../core/ZohoCRM'
-import { GetRecordOptions, GetRecordsOptions, GetRecordsParams } from './type'
+import {
+  GetRecordOptions,
+  GetRecordsOptions,
+  GetRecordsParams,
+  SearchRecordsOptions,
+  SearchRecordsParams,
+} from './type'
+import {
+  validateGetRecordOptions,
+  validateGetRecordsOptions,
+  validateSearchOptions,
+} from './utils/validations'
+import {
+  createGetRecordParams,
+  createGetRecordsParams,
+  createSearchParams,
+} from './utils/createParams'
 
 export default class Records {
   private zohoCRM: ZohoCRM
@@ -13,13 +29,10 @@ export default class Records {
   async getOne(options: GetRecordOptions) {
     const { moduleName, recordId, fields } = options
 
-    if (!moduleName) throw new Error('"moduleName" is required.')
-    if (!recordId) throw new Error('"recordId" is required.')
-    if (fields && fields.length > 50)
-      throw new Error('Cannot request more than 50 "fields".')
-
     if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+    validateGetRecordOptions(options)
 
+    const params = createGetRecordParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}/${recordId}`
 
     try {
@@ -27,9 +40,7 @@ export default class Records {
         headers: {
           Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
         },
-        params: {
-          fields: fields?.join(','),
-        },
+        params,
       })
     } catch (err) {
       console.error(
@@ -41,33 +52,12 @@ export default class Records {
   }
 
   async getAll(options: GetRecordsOptions) {
-    const {
-      moduleName,
-      fields,
-      ids,
-      page,
-      perPage,
-      pageToken,
-      sortOrder,
-      sortBy,
-    } = options
+    const { moduleName } = options
 
-    if (!moduleName) throw new Error('"moduleName" is required.')
-    if (!Array.isArray(fields) || fields.length === 0)
-      throw new Error('The "fields" parameter must be a non-empty array.')
-    if (fields.length > 50)
-      throw new Error('Cannot request more than 50 "fields".')
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+    validateGetRecordsOptions(options)
 
-    const params: GetRecordsParams = { fields: fields.join('') }
-
-    if (ids) params.ids = ids.join(',')
-    if (page) params.page = options.page
-    if (perPage && perPage <= 200) params.per_page = perPage
-    else params.per_page = 200
-    if (pageToken) params.page_token = pageToken
-    if (sortOrder) params.sort_order = sortOrder
-    if (sortBy) params.sort_by = sortBy
-
+    const params = createGetRecordsParams(options)
     const endpoint = `${this.baseUrl}/v5/${moduleName}`
 
     try {
@@ -80,6 +70,28 @@ export default class Records {
     } catch (err) {
       console.error(`Error fetching records from module ${moduleName}`, err)
       throw new Error(`Failed to fetch records from module ${moduleName}`)
+    }
+  }
+
+  async search(options: SearchRecordsOptions) {
+    const { moduleName } = options
+
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+    validateSearchOptions(options)
+
+    const params = createSearchParams(options)
+    const endpoint = `${this.baseUrl}/v3/${moduleName}/search`
+
+    try {
+      return await axios.get(endpoint, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+        },
+        params,
+      })
+    } catch (err) {
+      console.error(`Error searching records from module ${moduleName}`, err)
+      throw new Error(`Failed to search records from module ${moduleName}`)
     }
   }
 }

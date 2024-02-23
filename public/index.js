@@ -7,18 +7,53 @@ const zoho = new ZohoCRM({
   refreshToken: process.env.ZOHO_REFRESH_TOKEN,
 })
 
+async function getOneCandidate() {
+  const candidate = await zoho.records.getOne({
+    moduleName: 'Candidates',
+    recordId: '5905444000008108001',
+    fields: ['id', 'Candidate_First_Name', 'Name'],
+  })
+
+  console.log('GET ONE CANDIDATE:', candidate.data)
+  console.log('------------------------------')
+}
+
 async function getCandidates() {
+  const candidates = await zoho.records.getAll({
+    moduleName: 'Candidates',
+    ids: ['5905444000008108001', '5905444000008068003', '5905444000008048021'],
+    fields: ['id', 'Candidate_First_Name', 'Name'],
+  })
+
+  console.log('GET 3 CANDIDATES BY ID:', candidates.data)
+  console.log('------------------------------')
+}
+
+async function searchCandidates() {
   try {
-    const { data } = await zoho.records.getOne({
+    const candidate = await zoho.records.search({
       moduleName: 'Candidates',
-      recordId: '5905444000008068003',
-      fields: ['id', 'Name', 'Candidate_First_Name'],
+      email: 'pedrob@resorsi.com',
+      fields: ['id', 'Candidate_First_Name', 'Name', 'Email'],
+      // phone: '+541159826671',
+      // criteria: [
+      //   'Interview_Date:less_than:2024-02-20',
+      //   'Personal_Interview_Status:not_equal:Passed',
+      //   'Personal_Interview_Status:not_equal:Fail',
+      // ],
     })
 
-    console.log(data)
+    console.log('GET CANDIDATE BY EMAIL:', candidate.data)
+    console.log('------------------------------')
   } catch (err) {
     console.error(err)
   }
 }
 
-getCandidates()
+async function test() {
+  await getOneCandidate()
+  await getCandidates()
+  await searchCandidates()
+}
+
+test()
