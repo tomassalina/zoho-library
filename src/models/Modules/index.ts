@@ -1,5 +1,5 @@
 import axios from 'axios'
-import ZohoCRM from '../core/ZohoCRM'
+import ZohoCRM from '../../core/ZohoCRM'
 
 export default class Modules {
   private zohoCRM: ZohoCRM

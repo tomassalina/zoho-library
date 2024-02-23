@@ -1,12 +1,7 @@
 import axios from 'axios'
-import Records from '../models/Records'
 import Modules from '../models/Modules'
-
-interface ZohoCRMOptions {
-  clientId: string
-  clientSecret: string
-  refreshToken: string
-}
+import Records from '../models/Records'
+import { ZohoCRMOptions } from './type'
 
 export default class ZohoCRM {
   private options: ZohoCRMOptions
@@ -17,7 +12,7 @@ export default class ZohoCRM {
   constructor(options: ZohoCRMOptions) {
     this.options = options
     this.modules = new Modules(this)
-    this.records = new Records()
+    this.records = new Records(this)
     this.accessToken = ''
   }
 
