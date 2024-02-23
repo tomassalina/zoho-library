@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from 'axios'
 import Records from '../models/Records'
 import Modules from '../models/Modules'
 
@@ -16,7 +16,7 @@ export default class ZohoCRM {
 
   constructor(options: ZohoCRMOptions) {
     this.options = options
-    this.modules = new Modules()
+    this.modules = new Modules(this)
     this.records = new Records()
     this.accessToken = ''
   }
