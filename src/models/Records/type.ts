@@ -92,3 +92,18 @@ export interface GetDeletedRecordsParams {
   page?: number
   per_page?: number
 }
+
+// GET COUNT OF RECORDS
+export interface GetCountInModuleOptions {
+  moduleName: string
+  criteria?: string[]
+  email?: string
+  phone?: string
+  word?: string
+}
+export interface GetCountInModuleParams {
+  criteria?: string
+  email?: string
+  phone?: string
+  word?: string
+}

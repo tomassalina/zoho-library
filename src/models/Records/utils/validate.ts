@@ -1,6 +1,7 @@
 import {
   BulkUpdateRecordsOptions,
   DeleteRecordsOptions,
+  GetCountInModuleOptions,
   GetDeletedRecordsOptions,
   GetRecordOptions,
   GetRecordsOptions,
@@ -84,6 +85,14 @@ const getDeletedMethod = (options: GetDeletedRecordsOptions) => {
     )
 }
 
+const getCountInModule = (options: GetCountInModuleOptions) => {
+  const { moduleName, criteria } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (criteria && !Array.isArray(criteria))
+    throw new Error('"criteria" parameter must be an array')
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
@@ -93,4 +102,5 @@ export const validate = {
   deleteMethod,
   upsertMethod,
   getDeletedMethod,
+  getCountInModule,
 }

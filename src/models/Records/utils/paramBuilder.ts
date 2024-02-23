@@ -1,4 +1,6 @@
 import {
+  GetCountInModuleOptions,
+  GetCountInModuleParams,
   GetDeletedRecordsOptions,
   GetDeletedRecordsParams,
   GetRecordOptions,
@@ -58,9 +60,23 @@ const createGetDeletedParams = (options: GetDeletedRecordsOptions) => {
   return params
 }
 
+const createGetCountInModuleParams = (options: GetCountInModuleOptions) => {
+  const { criteria, email, phone, word } = options
+
+  const params: GetCountInModuleParams = {}
+
+  if (criteria) params.criteria = `(${criteria.map(c => `(${c})`).join('and')})`
+  if (email) params.email = email
+  if (phone) params.phone = phone
+  if (word) params.word = word
+
+  return params
+}
+
 export const paramBuilder = {
   createGetOneParams,
   createGetAllParams,
   createSearchParams,
   createGetDeletedParams,
+  createGetCountInModuleParams,
 }

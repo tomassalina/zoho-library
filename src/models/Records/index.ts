@@ -14,6 +14,7 @@ import {
   DeleteRecordsOptions,
   UpsertRecordsOptions,
   GetDeletedRecordsOptions,
+  GetCountInModuleOptions,
 } from './type'
 
 export default class Records {
@@ -238,7 +239,6 @@ export default class Records {
 
     const endpoint = `${this.baseUrl}/v5/${moduleName}/deleted`
     const params = paramBuilder.createGetDeletedParams(options)
-    console.log(params)
 
     try {
       return await axios.get(endpoint, {
@@ -253,6 +253,33 @@ export default class Records {
         err.response?.data
       )
       throw new Error(`Failed to get deleted records.`)
+    }
+  }
+
+  async getCountInModule(options: GetCountInModuleOptions) {
+    const { moduleName } = options
+
+    validate.getCountInModule(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}/actions/count`
+    const params = paramBuilder.createGetCountInModuleParams(options)
+
+    console.log(params)
+
+    try {
+      return axios.get(endpoint, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+        },
+        params,
+      })
+    } catch (err: any) {
+      console.error(
+        `Error getting count in module from module ${moduleName}.`,
+        err.response?.data
+      )
+      throw new Error(`Failed to get count in module records.`)
     }
   }
 }

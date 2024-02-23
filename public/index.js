@@ -152,6 +152,21 @@ async function getDeletedCandidates() {
   console.log(deletedRecords.data)
 }
 
+async function getCountInModule() {
+  const response = await zoho.records.getCountInModule({
+    moduleName: 'Candidates',
+    // email: 'salinatest@gmail.com',
+    // phone: '+541159826671',
+    criteria: [
+      'Interview_Date:less_than:2024-02-24',
+      'Personal_Interview_Status:not_equal:Passed',
+      'Personal_Interview_Status:not_equal:Fail',
+    ],
+  })
+
+  console.log(response.data)
+}
+
 async function uploadFile() {
   const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
   const upload = await zoho.files.upload({
@@ -171,6 +186,7 @@ async function test() {
   // await deleteCandidates()
   // await upsertCandidates()
   // await getDeletedCandidates()
+  // await getCountInModule()
   // await uploadFile()
 }
 
