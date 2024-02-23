@@ -46,3 +46,9 @@ export interface SearchRecordsParams {
   page?: number
   per_page?: number
 }
+
+// CREATE RECORD
+export interface CreateRecordOptions {
+  moduleName: string
+  data: Array<object>
+}

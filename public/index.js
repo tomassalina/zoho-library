@@ -50,10 +50,37 @@ async function searchCandidates() {
   }
 }
 
+async function createCandidate() {
+  try {
+    const candidate = {
+      Candidate_First_Name: 'Tomas',
+      Email: 'salinatest@gmail.com',
+      Name: 'SalinaTEST',
+    }
+
+    const candidate2 = {
+      Candidate_First_Name: 'Franco',
+      Email: 'francotest@gmail.com',
+      Name: 'SalinaTEST2',
+    }
+
+    const createdCandidate = await zoho.records.create({
+      moduleName: 'Candidates',
+      data: [candidate, candidate2],
+    })
+
+    console.log('CREATE CANDIDATE:', createdCandidate.data)
+    console.log('------------------------------')
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 async function test() {
   await getOneCandidate()
   await getCandidates()
   await searchCandidates()
+  // await createCandidate()
 }
 
 test()

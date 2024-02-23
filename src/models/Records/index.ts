@@ -8,6 +8,7 @@ import {
   GetRecordOptions,
   GetRecordsOptions,
   SearchRecordsOptions,
+  CreateRecordOptions,
 } from './type'
 
 export default class Records {
@@ -34,10 +35,10 @@ export default class Records {
         },
         params,
       })
-    } catch (err) {
+    } catch (err: any) {
       console.error(
         `Error fetching record ${recordId} from module ${moduleName}`,
-        err
+        err.response?.data
       )
       throw new Error(`Failed to fetch record ${recordId}`)
     }
@@ -59,8 +60,11 @@ export default class Records {
         },
         params,
       })
-    } catch (err) {
-      console.error(`Error fetching records from module ${moduleName}`, err)
+    } catch (err: any) {
+      console.error(
+        `Error fetching records from module ${moduleName}`,
+        err.response?.data
+      )
       throw new Error(`Failed to fetch records from module ${moduleName}`)
     }
   }
@@ -81,9 +85,39 @@ export default class Records {
         },
         params,
       })
-    } catch (err) {
-      console.error(`Error searching records from module ${moduleName}`, err)
+    } catch (err: any) {
+      console.error(
+        `Error searching records from module ${moduleName}`,
+        err.response?.data
+      )
       throw new Error(`Failed to search records from module ${moduleName}`)
+    }
+  }
+
+  async create(options: CreateRecordOptions) {
+    const { moduleName, data } = options
+
+    if (!this.zohoCRM.accessToken) {
+      await this.zohoCRM.authenticate()
+    }
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}`
+    try {
+      return await axios.post(
+        endpoint,
+        { data },
+        {
+          headers: {
+            Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+          },
+        }
+      )
+    } catch (err: any) {
+      console.error(
+        `Error creating records for the ${moduleName} module`,
+        err.response?.data
+      )
+      throw new Error('Failed to create record.')
     }
   }
 }
