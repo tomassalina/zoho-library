@@ -3,7 +3,7 @@ import ZohoCRM from '../../core/ZohoCRM'
 
 export default class Modules {
   private zohoCRM: ZohoCRM
-  baseUrl = 'https://www.zohoapis.com/crm/v5/settings/modules'
+  private baseUrl = 'https://www.zohoapis.com/crm/v5/settings/modules'
 
   constructor(zohoCRM: ZohoCRM) {
     this.zohoCRM = zohoCRM

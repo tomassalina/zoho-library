@@ -1,4 +1,5 @@
 require('dotenv').config()
+const path = require('path')
 const { ZohoCRM } = require('../dist/index')
 
 const zoho = new ZohoCRM({
@@ -76,11 +77,21 @@ async function createCandidate() {
   }
 }
 
+async function uploadFile() {
+  const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
+  const upload = await zoho.files.upload({
+    filePath: cvPath,
+  })
+
+  console.log(upload.data)
+}
+
 async function test() {
-  await getOneCandidate()
-  await getCandidates()
-  await searchCandidates()
+  // await getOneCandidate()
+  // await getCandidates()
+  // await searchCandidates()
   // await createCandidate()
+  await uploadFile()
 }
 
 test()

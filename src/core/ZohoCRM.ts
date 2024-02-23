@@ -1,18 +1,21 @@
 import axios from 'axios'
 import Modules from '../models/Modules'
 import Records from '../models/Records'
+import Files from '../models/Files'
 import { ZohoCRMOptions } from './type'
 
 export default class ZohoCRM {
   private options: ZohoCRMOptions
   public records: Records
   public modules: Modules
+  public files: Files
   accessToken: string
 
   constructor(options: ZohoCRMOptions) {
     this.options = options
     this.modules = new Modules(this)
     this.records = new Records(this)
+    this.files = new Files(this)
     this.accessToken = ''
   }
 
