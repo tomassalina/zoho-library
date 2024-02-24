@@ -47,6 +47,7 @@
   "homepage": "https://github.com/tomassalina/zoho-library#readme",
   "devDependencies": {
     "@types/node": "^20.11.20",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   },
