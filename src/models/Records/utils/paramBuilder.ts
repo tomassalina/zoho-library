@@ -6,6 +6,8 @@ import {
   GetRecordOptions,
   GetRecordsOptions,
   GetRecordsParams,
+  GetTimelineOptions,
+  GetTimelineParams,
   SearchRecordsOptions,
   SearchRecordsParams,
 } from '../type'
@@ -73,10 +75,22 @@ const createGetCountInModuleParams = (options: GetCountInModuleOptions) => {
   return params
 }
 
+const createGetTimelineParams = (options: GetTimelineOptions) => {
+  const { perPage, pageToken } = options
+
+  const params: GetTimelineParams = {}
+
+  if (perPage) params.per_page = perPage
+  if (pageToken) params.page_token = pageToken
+
+  return params
+}
+
 export const paramBuilder = {
   createGetOneParams,
   createGetAllParams,
   createSearchParams,
   createGetDeletedParams,
   createGetCountInModuleParams,
+  createGetTimelineParams,
 }

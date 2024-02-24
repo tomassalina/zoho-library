@@ -167,6 +167,15 @@ async function getCountInModule() {
   console.log(response.data)
 }
 
+async function getTimeline() {
+  const timeline = await zoho.records.getTimeline({
+    moduleName: 'Candidates',
+    recordId: '5905444000008048003',
+  })
+
+  console.log(timeline.data)
+}
+
 async function uploadFile() {
   const cvPath = path.join(__dirname, './CV_Tomas_Salina.pdf')
   const upload = await zoho.files.upload({
@@ -177,7 +186,7 @@ async function uploadFile() {
 }
 
 async function test() {
-  // await getOneCandidate()
+  await getOneCandidate()
   // await getCandidates()
   // await searchCandidates()
   // await createCandidates()
@@ -187,6 +196,7 @@ async function test() {
   // await upsertCandidates()
   // await getDeletedCandidates()
   // await getCountInModule()
+  // await getTimeline()
   // await uploadFile()
 }
 

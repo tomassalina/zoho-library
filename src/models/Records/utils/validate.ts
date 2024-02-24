@@ -5,6 +5,7 @@ import {
   GetDeletedRecordsOptions,
   GetRecordOptions,
   GetRecordsOptions,
+  GetTimelineOptions,
   SearchRecordsOptions,
   UpdateRecordOptions,
   UpsertRecordsOptions,
@@ -93,6 +94,13 @@ const getCountInModule = (options: GetCountInModuleOptions) => {
     throw new Error('"criteria" parameter must be an array')
 }
 
+const getTimeline = (options: GetTimelineOptions) => {
+  const { moduleName, recordId } = options
+
+  if (!moduleName) throw new Error('"moduleName" is required.')
+  if (!recordId) throw new Error('"recordId" is required.')
+}
+
 export const validate = {
   getOneMethod,
   getAllMethod,
@@ -103,4 +111,5 @@ export const validate = {
   upsertMethod,
   getDeletedMethod,
   getCountInModule,
+  getTimeline,
 }

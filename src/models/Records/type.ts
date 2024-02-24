@@ -107,3 +107,15 @@ export interface GetCountInModuleParams {
   phone?: string
   word?: string
 }
+
+// GET TIMELINE
+export interface GetTimelineOptions {
+  moduleName: string
+  recordId: string
+  perPage: number
+  pageToken: string
+}
+export interface GetTimelineParams {
+  per_page?: number
+  page_token?: string
+}

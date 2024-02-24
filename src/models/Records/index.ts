@@ -15,6 +15,7 @@ import {
   UpsertRecordsOptions,
   GetDeletedRecordsOptions,
   GetCountInModuleOptions,
+  GetTimelineOptions,
 } from './type'
 
 export default class Records {
@@ -249,7 +250,7 @@ export default class Records {
       })
     } catch (err: any) {
       console.error(
-        `Error getting deleted records from module ${moduleName}.`,
+        `Error fetching deleted records from module ${moduleName}.`,
         err.response?.data
       )
       throw new Error(`Failed to get deleted records.`)
@@ -265,7 +266,30 @@ export default class Records {
     const endpoint = `${this.baseUrl}/v5/${moduleName}/actions/count`
     const params = paramBuilder.createGetCountInModuleParams(options)
 
-    console.log(params)
+    try {
+      return axios.get(endpoint, {
+        headers: {
+          Authorization: `Zoho-oauthtoken ${this.zohoCRM.accessToken}`,
+        },
+        params,
+      })
+    } catch (err: any) {
+      console.error(
+        `Error fetching count in module from module ${moduleName}.`,
+        err.response?.data
+      )
+      throw new Error(`Failed to get count in module records.`)
+    }
+  }
+
+  async getTimeline(options: GetTimelineOptions) {
+    const { moduleName, recordId } = options
+
+    validate.getTimeline(options)
+    if (!this.zohoCRM.accessToken) await this.zohoCRM.authenticate()
+
+    const endpoint = `${this.baseUrl}/v5/${moduleName}/${recordId}/__timeline`
+    const params = paramBuilder.createGetTimelineParams(options)
 
     try {
       return axios.get(endpoint, {
@@ -276,10 +300,10 @@ export default class Records {
       })
     } catch (err: any) {
       console.error(
-        `Error getting count in module from module ${moduleName}.`,
+        `Error fetching timeline in module from module ${moduleName}.`,
         err.response?.data
       )
-      throw new Error(`Failed to get count in module records.`)
+      throw new Error(`Failed to get timeline.`)
     }
   }
 }
