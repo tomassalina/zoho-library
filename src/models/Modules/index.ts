@@ -9,7 +9,7 @@ export default class Modules {
     this.zohoCRM = zohoCRM
   }
 
-  async get(moduleName: string) {
+  async get() {
     if (!this.zohoCRM.accessToken) {
       await this.zohoCRM.authenticate()
     }
@@ -24,7 +24,7 @@ export default class Modules {
       return response.data
     } catch (err) {
       console.error(`Error getting modules from Zoho CRM`, err)
-      throw new Error(`Failed to get module ${moduleName}`)
+      throw new Error(`Failed to get modules`)
     }
   }
 }
