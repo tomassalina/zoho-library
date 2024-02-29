@@ -1,6 +1,6 @@
 {
   "name": "zoho-library",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A sleek and powerful library to effortlessly bridge Node.js with Zoho CRM, featuring easy OAuth handling, seamless CRUD operations, and comprehensive management of contacts, leads, and more.",
   "main": "dist/index.js",
   "files": [
